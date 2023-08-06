@@ -34,3 +34,46 @@ However, advances in transfer learning, where models trained on one task are ada
 
 # Code examples
 
+Step 1: Importing Libraries
+
+We start by importing the necessary libraries for our sentiment analysis task. These include torch, torchtext, and transformers, which are powerful libraries for deep learning and natural language processing.
+
+Step 2: Preparing the Data
+
+In this step, we set up the fields for data preprocessing. We define a Field for text and a LabelField for sentiment labels. The tokenize='spacy' argument indicates that we'll use the SpaCy tokenizer to split the text into individual tokens. We also specify lower=True to convert all text to lowercase for consistency.
+
+Step 3: Loading the IMDb Dataset
+
+Next, we load the IMDb movie reviews dataset using the IMDB.splits function provided by torchtext.datasets. This function splits the dataset into training and testing sets.
+
+Step 4: Building Vocabulary
+
+Now, we build the vocabulary for our sentiment analysis task. We use the BERT tokenizer to tokenize the text and create a vocabulary based on these tokens. The vectors=tokenizer.vocab argument initializes the vocabulary with BERT's pre-trained word embeddings.
+
+Step 5: Defining the Sentiment Analysis Model
+
+In this step, we define the sentiment analysis model using BertForSequenceClassification from the transformers library. This model is pre-trained on a large corpus and can perform sequence classification tasks like sentiment analysis. We specify num_labels=1 since our task is binary classification (positive or negative sentiment).
+
+Step 6: Setting up Loss Function and Optimizer
+
+We define the loss function as nn.BCEWithLogitsLoss() since it's suitable for binary classification tasks. The optimizer is set as optim.Adam with a learning rate of 2e-5.
+
+Step 7: Preparing for GPU Training
+
+If a GPU is available, we move the model to the GPU to accelerate training.
+
+Step 8: Creating Data Iterators
+
+We create data iterators for the training and testing sets using BucketIterator from torchtext.data. The iterators efficiently batch and pad the data for training and evaluation.
+
+Step 9: Training the Sentiment Analysis Model
+
+In this step, we define a function train_model to train the sentiment analysis model. Inside the function, we put the model in training mode (model.train()) and loop through the data iterator. For each batch, we compute the model's predictions, calculate the loss, backpropagate the gradients, and update the model's parameters.
+
+Step 10: Evaluating the Sentiment Analysis Model
+
+Similarly, we define a function evaluate_model to evaluate the model on the test set. The model is put in evaluation mode (model.eval()), and we loop through the test data iterator. For each batch, we calculate the model's predictions and loss without updating the model's parameters.
+
+Step 11: Training Loop
+
+We perform the actual training loop for a specified number of epochs (in this case, 5 epochs). In each epoch, we call the train_model function to train the model on the training set and the evaluate_model function to evaluate it on the test set. After each epoch, we print the training and test loss to monitor the model's performance.
